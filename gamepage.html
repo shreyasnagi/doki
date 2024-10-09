@@ -1,0 +1,209 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="styling.css">
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Sixtyfour+Convergence&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+      </style>
+    </head>
+    <body onload="loaded()">
+        <div style="clear:both"></div>
+        <div id="gamecontent">
+            <img style="width:100%;position:fixed;z-index:-2;" src="img/backcover.jpg">
+            <div id="popupanswers">
+              <div id="popupcontent">
+                <h2 id="choiceresult">GOOD JOB!</h2>
+                <p id="choiceexplain">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum </p>
+                <b><p id="score"></p></b>
+                <div onclick="randomize()" id="randombutton">Next</div>
+              </div>
+            </div>
+            <div id="maincontent">
+              <img id="pfp" src="img/F2.png">
+              <div>
+                <div onclick="check(true)" id="choose"><b>Like</b></div>
+                <div onclick="check(false)" id="reject"><b>Nope</b></div>
+              </div>
+              <hr style="width:80%;margin-left:10%;margin-top:25px;">
+              <div id="essential">
+                <h1 id="question1"></h1>
+                <p id="answer1">This is an answerThis is an answerThis is an answerThis is an answerThis is an answerThis is an answerThis is an answerThis is an answer</p>
+                <h1 id="question2"></h1>
+                <p id="answer2">This is an answerThis is an answerThis is an answerThis is an answerThis is an answerThis is an answerThis is an answerThis is an answer</p>
+                <h1 id="question3"></h1>
+                <p id="answer3">This is an answerThis is an answerThis is an answerThis is an answerThis is an answerThis is an answerThis is an answerThis is an answer</p>
+              </div>
+            </div>
+        </div>
+        <script>
+            var conf = getQueryVariable("conf");
+            var score = 0;
+            var gamecond = true;
+            var good = true;
+            var preconf = 1;
+            var wrongid1 = 0;
+            var wrongid2 = 0;
+            var questionbank = ["What do you do in your free time?", "What are you looking for in a partner?", "Have you done anything interesting recently?", "What are your hobbies?", "What is something interesting about you?", "What would you say are your weaknesses?"];
+            var pref = [];
+            var goodanswers = [
+              ["I love exploring the campus grounds, especially during the evenings. Sometimes, I just chill at the amphitheater or go for a walk around the lake.!", "I spend a lot of time at the art studio. Whether it’s painting or sketching, it’s my go-to stress buster.", "I’m really into debating, so I practice for upcoming events with my teammates. We have some pretty heated discussions even when we’re not preparing for competitions.", "I enjoy attending workshops and guest lectures. There’s always something new to learn, and the speakers we get here are pretty inspiring.", "In my free time, I hit the gym or join my friends for a game of basketball. The sports facilities here are top-notch!", "I’m part of a student-run music band, so I jam with my friends. Sometimes, we even perform at campus events or open mic nights."],
+              ["I’m looking for someone who’s curious and open-minded. I love deep conversations, so having someone who’s up for discussing anything and everything is a big plus.", "Someone who values personal growth and has their own passions. I want to be with someone who inspires me and is driven by their goals.", "A good sense of humor is essential! Life gets hectic, and it’s great to have someone who can make me laugh and keep things lighthearted.", "I want a partner who’s supportive and understanding. University life can be a lot, so having someone who’s empathetic and genuinely caring makes all the difference.", "I’m drawn to someone who appreciates culture and the arts. Whether it’s movies, books, or music, I’d love to be with someone who can share those interests with me.", "I’m looking for someone who’s adventurous and spontaneous. I enjoy trying new things, and it would be amazing to find a partner who’s up for exploring and making memories together."],
+              ["Yeah! I just got back from a rural immersion program where we spent a week in a village. It was eye-opening to see how communities work together and live sustainably.", "I recently attended a talk by a guest lecturer who’s a well-known environmental activist. It was inspiring and really got me thinking about my own carbon footprint.", "I helped organize our annual cultural festival, and it was a blast! I got to meet so many new people and see all the hard work pay off during the events.", "I joined a new club focused on film-making, and we just shot our first short film around campus. It was a great experience learning about everything that goes on behind the scenes.", "I participated in a hackathon last weekend with a group of friends. We didn’t win, but we learned a lot and even came up with a cool app idea we’re thinking of developing further.", "I recently started volunteering at an animal shelter nearby. Spending time with the animals and helping out has been so rewarding—it’s definitely a highlight of my week!"],
+              ["I’m really into photography, especially nature shots. The campus has so many scenic spots, so I’m always out with my camera capturing moments.", "I love reading, particularly philosophy and psychology books. I find it fascinating to explore different perspectives and understand human behavior.", "Cooking is one of my favorite hobbies! I’m always trying out new recipes, and sometimes I even share them with friends.", "I’m passionate about music and play the guitar. I enjoy jamming with friends and even play at open mic nights on campus whenever I get the chance.", "I’m an avid hiker and love exploring trails around the Pune area. Being out in nature is refreshing, and it’s a great way to stay active.", "I enjoy painting and sketching. The campus art studio is like my second home, and I often spend hours there experimenting with new techniques."],
+              ["I’ve traveled to over 15 countries with my family, and I have this collection of postcards from each place we visited. I love learning about different cultures firsthand.", "I can speak three languages fluently: English, Hindi, and French. I’m actually working on picking up a fourth—Spanish!", "I started a podcast with a couple of friends, where we discuss various social issues and interview guest speakers. It’s been a fun way to engage with topics we care about.", "I have a black belt in karate, and I’ve even competed in a few national tournaments. It’s taught me a lot about discipline and resilience.", "I’m really into stargazing and know a surprising amount about constellations and planets. I even built a DIY telescope last year to get a better view.", "I run a small Etsy shop where I sell handmade jewelry. It started as a hobby, but now it’s become a cool side hustle that helps me de-stress and get creative."],
+              [" tend to overthink things, especially when it comes to making decisions. I’m working on trusting my instincts more and not getting caught up in all the details.", "I can be a bit of a perfectionist. Sometimes I spend way too much time on assignments because I want them to be just right, which can be stressful.", "I’m not the best at saying no. I often end up taking on too many responsibilities because I want to help everyone, but it sometimes leaves me feeling overwhelmed.", "I struggle with time management when I have multiple projects going on. I’m learning to prioritize better and use planning tools to stay organized.", " can be quite shy in new social situations, which sometimes makes it hard to make new friends or network. But I’ve been pushing myself to step out of my comfort zone more often.", "I have a habit of procrastinating, especially with tasks that don’t interest me as much. I’m working on setting smaller goals to help me stay motivated and focused."]
+            ];
+            var badanswers = [
+              ["If I don't have any classes the next day then I just swap the room for the night with my friend's roommate for a sleepover. Watching Movies together in their room is a lot of fun!", "I spend a lot of my time on the internet and I see dumb people everywhere ugh. A lot of people spread misinformation and I think it's everyone's duty to tell these people to shut up."],
+              ["I'm looking for someone to study with! I want someone who's academically focused and sharing assignments with someone is just so much easier.", "I had a religious festival recently! I took 5 days off because it required me to fast and I just get so tireddd. I hope my professors don't cut my attendance because of it :(.", "I really really love partying! I just want someone I can have some fun with! Of course I don't mind if alcohol's involved ;)"],
+              ["Basically, I just made this really good veg sushi in my dorm! Cooking with the electric stove's a bit tricky but it turned out reallyyy good!", "Loki the cat was in my room yesterday!!! He's so cute! It was so cool having him around!", "I recently trolled this child on the internet! it was really funny. I tricked them into handing over their game account to me!!"],
+              ["I love taking sunset pictures. I usually spend my time in the library so whenever I see a good sunset I just go to the library terrace!", "I love swimming! I always try to get a booking for swimming but if I can't then I at least get to dip my feet a little in the FLAME fountain. It's so fun!!", "I work out a lot but the gym at FLAME is always booked out. I just try to sneak my way in sometimes."],
+              ["I really like sitting on grass. I've read there are a lot of benefits and it soothes my mind a lot! My favorite places in the campus to sit and relax on the grass is Arjuna, Cricket Field and Chandragupta!", "I'm really really forgetful :(. I've forgotten about a couple assignments and it's affected my academics!!! I have trouble raising the ticket a day before so I usually raise it on the same day and try to sneak past the guards at the gate haha"],
+              ["I think I'm really lazy. I just procrastinate a lot and sometimes it gets me in trouble but it's fine haha. I'm even using the same password I had in 6th grade!", "I love posting stories a bit too much, haha. People get a bit annoyed when I keep posting on social media, but I just love putting myself out there like the trip to France I had last month!", "I'm very scared of losing my friends. I don't like how they cheat on their tests regularly but I'm so scared to report them. I just want someone who's honest."]
+            ];
+            var badanswerexplanation = [
+              ["Sleeping in someone else's room is prohibited!", "It is important to treat people on the internet as human beings! Follow the 10 Netiquette commandments!"],
+              ["Plagiarism is not allowed under ANY circumstance! There are severe consequences for it.", "You can't be excused with missing attendance for more than 1 day due to religious reasons.", "Drugs, Cigarettes and Alcohol are STRICTLY prohibited!!"],
+              ["Electric stoves are not allowed to cook in one's room! You run the risk of disrupting the electricity of the entire building!!", "Bringing animals inside your room is not allowed sadly.", "Scamming is not ethical whatsoever. Rethink your choices!"],
+              ["You are not allowed to go on the Library Terrace!", "Interacting with the water bodies at FLAME is not allowed!!", "You must make a booking before using the campus resources! Do not act unfairly."],
+              ["Going on the cricket field is prohibited.", "Raising a ticket before going out of campus for the night is a MUST! Contact your warden for any exceptions.", ""],
+              ["The person you have chosen does not follow proper online safety practices. This will also put you at risk!", "It is important to manage your digital footprint for your safety and the safety of others!!", "Academic Misconduct must be notified to the relevant authorities! No exceptions!"]
+            ]
+            function getQueryVariable(variable) {
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i=0;i<vars.length;i++) {
+                    var pair = vars[i].split("=");
+                    if (pair[0] == variable) {
+                        return pair[1];
+                    }
+                } 
+                alert('Query Variable ' + variable + ' not found');
+            }
+            function display() {
+                console.log(param1var);
+            }
+            function randomize() {
+              if(gamecond) {
+                var randside = Math.floor(Math.random() * 2);
+                var randimg = Math.floor(Math.random() * 5) + 1;
+                var randpref = Math.floor(Math.random() * preconf);
+                var imgsrc = document.getElementById("pfp").src = 'img/' + pref[randpref] + randimg + '.png';
+                document.getElementById("popupanswers").style.display = "none";
+                if (randside == 0) {
+                  good = true;
+                  randomizegood();
+                } else {
+                  good = false;
+                  randomizebad();
+                }
+              } else {
+                window.location.href = 'index.html';
+              }
+            }
+            function randomizegood() {
+              var temp = questionbank.slice();
+              var temp2 = Math.floor(Math.random() * temp.length);
+              var temp3 = goodanswers.slice();
+              for(var i = 0; i < 3; i++) {
+                var j = i+1;
+                document.getElementById('question' + j).innerHTML = temp[temp2];
+                document.getElementById('answer' + j).innerHTML = temp3[temp2][Math.floor(Math.random() * temp3[temp2].length)];
+                temp = temp.filter(item => item !== temp[temp2]);
+                temp3 = temp3.filter(item => item !== temp3[temp2]);
+                temp2 = Math.floor(Math.random() * temp.length);
+              }
+             }
+            function randomizebad() {
+              var wrong = Math.floor(Math.random() * 3);
+              var temp = questionbank.slice();
+              var temp2 = Math.floor(Math.random() * temp.length);
+              var temp3 = goodanswers.slice();
+              var temp4 = 0;
+              for(var i = 0; i < 3; i++) {
+                if(i != wrong) {
+                  var j = i+1;
+                  document.getElementById('question' + j).innerHTML = temp[temp2];
+                  document.getElementById('answer' + j).innerHTML = temp3[temp2][Math.floor(Math.random() * temp3[temp2].length)];
+                  temp = temp.filter(item => item !== temp[temp2]);
+                  temp3 = temp3.filter(item => item !== temp3[temp2]);
+                  temp2 = Math.floor(Math.random() * temp.length);
+                } else {
+                  var j = i+1;
+                  document.getElementById('question' + j).innerHTML = temp[temp2];
+                  temp4 = Math.floor(Math.random() * badanswers[temp2].length);
+                  document.getElementById('answer' + j).innerHTML = badanswers[temp2][temp4];
+                  temp = temp.filter(item => item !== temp[temp2]);
+                  temp3 = temp3.filter(item => item !== temp3[temp2]);
+                  wrongid1 = temp2;
+                  wrongid2 = temp4;
+                  temp2 = Math.floor(Math.random() * temp.length);
+                }
+              }
+            }
+            function loaded() {
+              if (conf == 1) {
+                pref.push('F');
+                preconf = 1;
+              } else if (conf == 2) {
+                pref.push('NB');
+                preconf = 1;
+              } else if (conf == 3) {
+                pref.push('M');
+                preconf = 1;
+              } else if (conf == 4) {
+                pref.push('M');
+                pref.push('F');
+                preconf = 2;
+              } else if (conf == 5) {
+                pref.push('NB');
+                pref.push('F');
+                preconf = 2;
+              } else if (conf == 6) {
+                pref.push('M');
+                pref.push('NB');
+                preconf = 2;
+              } else if (conf == 7) {
+                pref.push('NB');
+                pref.push('M');
+                pref.push('F');
+                preconf = 3;
+              }
+              randomize();
+            }
+            function check(inp) {
+              var popuphead = document.getElementById("choiceresult");
+              var popuptext = document.getElementById("choiceexplain");
+              document.getElementById("popupanswers").style.display = "block";
+              if(inp == good) {
+                score++;
+                if(score >= 10) {
+                  popuphead.innerHTML = "GREAT JOB";
+                  popuptext.innerText = "That Was Correct! You've got 10 right in a row!";
+                  document.getElementById("randombutton").innerHTML = "Go Back";
+                  window.location.href = "index.html";
+                } else {
+                popuphead.innerHTML = "GOOD JOB";
+                popuptext.innerText = "That Was Correct!";
+                document.getElementById("randombutton").innerHTML = "Next";
+                }
+              } else if(!good) {
+                document.getElementById("randombutton").innerHTML = "Go Back";
+                popuphead.innerHTML = "GAME OVER";
+                var temptext = "That was wrong! " + badanswerexplanation[wrongid1][wrongid2] + " Start Over!"
+                popuptext.innerText = temptext;
+                console.log(temptext);
+                gamecond = false;
+                document.getElementById("score").innerText = score + '/10';
+              } else {
+                document.getElementById("randombutton").innerHTML = "Next";
+                popuphead.innerHTML = "TRY AGAIN";
+                popuptext.innerText = "There was nothing wrong with that person!";
+                document.getElementById("score").innerText = score + '/10';
+              }
+              document.getElementById("score").innerText = score + '/10';
+            }
+        </script>             
+    </body>
+</html>

@@ -1,0 +1,151 @@
+body {
+    margin:0;
+    background-color:black;
+    color:white;
+    overflow:hidden;
+    font-family: "Afacad Flux", sans-serif;
+    font-weight:400;
+}
+#options {
+    margin-left:50%;
+    color:black;
+    font-size:25px;
+    margin-top:-30px;
+}
+#startbutton {
+    margin-top:5%;
+    background-color:rgb(235, 105, 126);
+    color:white;
+    padding:5px;
+    border-radius:5px;
+    width:15%;
+    text-align:center;
+    margin-left:5%;
+}
+#startbutton:hover {
+    background-color:black;
+}
+#options input {
+    transform: scale(1.5);
+    margin-bottom:10px;
+    margin:15px;
+}
+#instructions {
+    width:35%;
+    margin-left:3%;
+    height:75%;
+    margin-top:-10%;
+    background-color:rgb(243, 137, 160);
+    border-radius:10px;
+    box-shadow:10px 10px rgb(103, 52, 74);
+    text-align:center;
+    overflow:hidden;
+}
+#instructions h2{
+    color:rgb(235, 105, 126);
+    font-size:25px;
+    font-family: "Sixtyfour Convergence", sans-serif;
+    padding:20px;
+}
+#instructions ul {
+    text-align:justify;
+    font-size:20px;
+}
+#maincontent {
+    background-color:black;
+    width:60%;
+    margin-left:20%;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    height:100%;
+}
+#maincontent img {
+    width:250px;
+    margin-left:35%;
+    border-radius:5px;
+    margin-top:25px;
+}
+#essential {
+    text-align:justify;
+    padding:10%;
+    margin-top:-50px;
+    font-family: "Afacad Flux", sans-serif;
+}
+#choose {
+    margin-top:5%;
+    background-color:rgb(102, 202, 81);
+    color:white;
+    border-radius:2px;
+    width:15%;
+    text-align:center;
+    margin-left:5%;
+    float:right;
+    margin:20px;
+    margin-right:15%;
+    font-size:20px;
+    padding:10px;
+    margin-top:50px;
+}
+#reject {
+    margin-top:5%;
+    background-color:rgb(235, 105, 126);
+    color:white;
+    border-radius:2px;
+    width:15%;
+    text-align:center;
+    margin-left:5%;
+    float:left;
+    margin:20px;
+    margin-left:18%;
+    font-size:20px;
+    padding:10px;
+    margin-top:50px;
+}
+#popupanswers {
+    width:100%;
+    position:fixed;
+    height:100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+#popupcontent {
+    width:60%;
+    height:60%;
+    padding:5%;
+    margin:5%; 
+    margin-left:15%;
+    background-color:rgb(190, 87, 173);
+    border-color:black;
+    border-style:solid;
+    border-width:1px;
+    border-radius:5px;
+    text-align:center;
+}
+#choiceresult {
+    font-size:40px;
+    font-family: "Kanit";
+    font-weight:700;
+}
+#popupcontent p {
+    font-size:22px;
+}
+#randombutton {
+    margin-top:5%;
+    background-color:rgb(77, 21, 30);
+    color:white;
+    padding:10px;
+    border-radius:3px;
+    font-size:25px;
+    width:15%;
+    text-align:center;
+    margin-top:20%;
+    margin-left:41%;
+}
+#randombutton:hover {
+    background-color:white;
+    color:rgb(77, 21, 30);
+    transition:1s;
+}
+#popupanswers {
+    display:none;
+    z-index:3;
+}
